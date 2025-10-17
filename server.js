@@ -1,46 +1,52 @@
+// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 // Import model User
-const User = require("./database/user"); // chữ thường nếu file là user.js
+const User = require("./database/user"); // file database/user.js
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Kết nối MongoDB Atlas
+// ✅ Kết nối MongoDB Atlas
 mongoose.connect(
-  "mongodb+srv://minhkhang310304_db_user:khang3103@cluster0.wwepwir.mongodb.net/groupDB?retryWrites=true&w=majority&appName=Cluster0"
+  "mongodb+srv://minhkhang310304_db_user:khang3103@cluster0.wwepwir.mongodb.net/groupDB?retryWrites=true&w=majority&appName=Cluster0",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000, // 10 giây timeout
+  }
 )
   .then(() => console.log("✅ Đã kết nối MongoDB Atlas thành công!"))
   .catch(err => console.error("❌ Lỗi kết nối MongoDB:", err));
 
 // Log trạng thái connection
-mongoose.connection.on("connected", () => console.log("MongoDB connected ✅"));
-mongoose.connection.on("error", (err) => console.error("MongoDB connection error ❌:", err));
-mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected ⚠️"));
+mongoose.connection.on("connected", () => console.log("🔗 MongoDB connected"));
+mongoose.connection.on("error", (err) => console.error("💥 MongoDB connection error:", err));
+mongoose.connection.on("disconnected", () => console.log("⚠️ MongoDB disconnected"));
 
 // Middleware log request
 app.use((req, res, next) => {
-  console.log(`\n⏩ ${req.method} ${req.url} được gọi`);
-  console.log("Request body:", req.body);
+  console.log(`\n➡️ ${req.method} ${req.url} được gọi`);
+  console.log("📦 Request body:", req.body);
   next();
 });
 
 // Route test
 app.get("/", (req, res) => {
-  res.send("Server đang hoạt động ✅");
+  res.send("✅ Server đang hoạt động bình thường!");
 });
 
 // GET danh sách user
 app.get("/users", async (req, res) => {
   try {
     const users = await User.find();
-    console.log("GET /users result:", users);
+    console.log("📄 GET /users result:", users);
     res.json(users);
   } catch (err) {
-    console.error("Lỗi GET /users:", err);
+    console.error("❌ Lỗi GET /users:", err);
     res.status(500).json({ error: "Lỗi khi lấy dữ liệu người dùng" });
   }
 });
@@ -62,11 +68,11 @@ app.post("/users", async (req, res) => {
     const newUser = new User({ name, email });
     await newUser.save();
 
-    console.log("User mới đã được thêm:", newUser);
+    console.log("✅ User mới đã được thêm:", newUser);
 
     res.status(201).json({ message: "Thêm người dùng thành công!", data: newUser });
   } catch (err) {
-    console.error("Lỗi POST /users:", err);
+    console.error("❌ Lỗi POST /users:", err);
     res.status(500).json({ error: "Lỗi khi thêm người dùng" });
   }
 });

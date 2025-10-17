@@ -1,10 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require("./db"); // đúng vì db.js nằm cùng thư mục với user.js
 
-// Schema User
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true }
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
 }, { timestamps: true });
 
-// Export model
 module.exports = mongoose.model("User", userSchema);
