@@ -1,4 +1,4 @@
-// server.js
+// server.js 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -78,5 +78,5 @@ app.post("/users", async (req, res) => {
 });
 
 // Khởi động server
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => console.log(`🚀 Server chạy tại: http://localhost:${PORT}`));
