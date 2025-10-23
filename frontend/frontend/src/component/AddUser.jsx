@@ -10,7 +10,6 @@ export default function AddUser({ onAdded }) {
     e.preventDefault();
     if (!name.trim()) return alert("Name không được để trống");
     if (!/^\S+@\S+\.\S+$/.test(email)) return alert("Email không hợp lệ");
-
     try {
       setLoading(true);
       const res = await api.post("/users", { name, email });
@@ -24,9 +23,9 @@ export default function AddUser({ onAdded }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display:"grid", gridTemplateColumns:"160px 240px auto", gap:8, marginBottom:16 }}>
-      <input placeholder="Name"  value={name}  onChange={e=>setName(e.target.value)} />
-      <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
+    <form onSubmit={handleSubmit} style={{ display: "grid", gap: 8, marginBottom: 16 }}>
+      <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <button type="submit" disabled={loading}>{loading ? "Đang thêm..." : "Thêm"}</button>
     </form>
   );

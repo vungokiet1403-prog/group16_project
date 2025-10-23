@@ -27,7 +27,9 @@ export default function UserList({ refreshRef }) {
 
   return (
     <ul style={{ paddingLeft: 16 }}>
-      {users.map(u => <li key={u._id || u.id}><b>{u.name}</b> — {u.email}</li>)}
+      {users.map((u) => (
+        <li key={u._id || u.id}><b>{u.name}</b> — {u.email}</li>
+      ))}
       {users.length === 0 && <li>Chưa có user</li>}
     </ul>
   );
