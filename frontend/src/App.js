@@ -1,18 +1,16 @@
-import axios from "axios";
-import './App.css';
+import { useState } from "react";
 import AddUser from "./components/AddUser";
 import UserList from "./components/UserList";
-export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:3000"});
+
 export default function App() {
-  const refresh = () => window.location.reload();
+  const [bump, setBump] = useState(0);
   return (
-    <div style={{ padding: 24 }}>
-      <h2>Group Project — Users</h2>
-      <AddUser onAdded={refresh} />
-      <UserList />
+    <div style={{ padding:20, fontFamily:"sans-serif" }}>
+      <h1>Frontend ↔ MongoDB (Users)</h1>
+      <AddUser onAdded={() => setBump(x=>x+1)} />
+      <div key={bump} style={{ marginTop:20 }}>
+        <UserList />
+      </div>
     </div>
   );
 }
-
-

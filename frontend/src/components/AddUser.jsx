@@ -1,23 +1,32 @@
 import { useState } from "react";
-import axios from "axios";
+import { Users } from "../api";
 
 export default function AddUser({ onAdded }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [f, setF] = useState({ name: "", email: "" });
+  const [msg, setMsg] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!name.trim()) return alert("Name không được để trống");
-    if (!/\S+@\S+\.\S+/.test(email)) return alert("Email không hợp lệ");
-    await axios.post("http://localhost:3000/users", { name, email });
-    setName(""); setEmail(""); onAdded?.();
+    setMsg("");
+    try {
+      await Users.add(f);
+      setMsg("Thêm thành công!");
+      setF({ name: "", email: "" });
+      onAdded?.();
+    } catch (e2) {
+      setMsg(e2?.response?.data?.message || e2.message);
+    }
   };
 
   return (
-    <form onSubmit={submit} style={{ display:"flex", gap:8, marginBottom:16 }}>
-      <input placeholder="Name" value={name} onChange={e=>setName(e.target.value)} />
-      <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
+    <form onSubmit={submit} style={{display:"grid", gap:8, maxWidth:360}}>
+      <h2>Thêm User</h2>
+      <input placeholder="Tên" value={f.name}
+             onChange={e=>setF({...f, name:e.target.value})} required />
+      <input placeholder="Email" type="email" value={f.email}
+             onChange={e=>setF({...f, email:e.target.value})} required />
       <button type="submit">Thêm</button>
+      {msg && <div style={{color: msg.includes("thành công")?"green":"red"}}>{msg}</div>}
     </form>
   );
 }
