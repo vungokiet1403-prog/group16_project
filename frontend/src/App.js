@@ -1,16 +1,32 @@
-import { useState } from "react";
-import AddUser from "./components/AddUser";
-import UserList from "./components/UserList";
+import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import { Auth } from "./api";
 
-export default function App() {
-  const [bump, setBump] = useState(0);
+function NavBar(){
+  const nav = useNavigate();
+  const logged = !!localStorage.getItem("token");
+  const logout = () => { Auth.logout(); nav("/login", {replace:true}); };
   return (
-    <div style={{ padding:20, fontFamily:"sans-serif" }}>
-      <h1>Frontend ↔ MongoDB (Users)</h1>
-      <AddUser onAdded={() => setBump(x=>x+1)} />
-      <div key={bump} style={{ marginTop:20 }}>
-        <UserList />
-      </div>
-    </div>
+    <nav className="navbar">
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Signup</Link>
+      {logged && <button className="btn" style={{width:120}} onClick={logout}>Logout</button>}
+    </nav>
+  );
+}
+
+export default function App(){
+  return (
+    <BrowserRouter>
+      <NavBar/>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
