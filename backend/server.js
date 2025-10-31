@@ -17,6 +17,8 @@ const MONGO_URI = process.env.MONGO_URI ||
     console.log("✅ MongoDB:", mongoose.connection.host);
 
     app.use("/api/users", require("./routes/user"));
+    app.use("/api/auth", require("./routes/auth")); 
+    app.use("/api/profile", require("./routes/profile"));
 
     app.get("/health", async (_req, res) => {
       try { await mongoose.connection.db.admin().ping(); res.json({ mongo: "ok" }); }
