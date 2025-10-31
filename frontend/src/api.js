@@ -26,5 +26,21 @@ export const Auth = {
   signup: (payload) => api.post("/auth/signup", payload),
   login:  (payload) => api.post("/auth/login", payload),
   me:     () => api.get("/auth/me"),
+  updateMe: (payload) => api.put("/auth/me", payload),
+  uploadAvatar: (file) => {
+    const form = new FormData();
+    form.append("file", file);
+    return api.post("/auth/upload-avatar", form, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
   logout: () => localStorage.removeItem("token"),
+};
+export const Profile = {
+  get:    () => api.get("/profile"),
+  update: (payload) => api.put("/profile", payload),
+};
+export const Users = {
+  list: () => api.get("/users"),
+  remove: (id) => api.delete(`/users/${id}`),
 };
