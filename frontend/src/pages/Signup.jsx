@@ -35,7 +35,7 @@ export default function Signup(){
                  value={email} onChange={e=>setEmail(e.target.value)} />
         </div>
         <div className="field">
-          <input className="input" type="password" placeholder="Mật khẩu" required minLength={6}
+          <input className="input" type="password" placeholder="Mật khẩu" required minLength={5}
                  value={password} onChange={e=>setPassword(e.target.value)} />
         </div>
 
