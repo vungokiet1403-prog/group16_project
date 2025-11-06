@@ -14,7 +14,13 @@ exports.auth = async (req,res,next)=>{
   }catch(e){ res.status(401).json({message:"Unauthorized"}); }
 };
 
+<<<<<<< HEAD
 exports.requireRole = role => (req,res,next)=>{
   if(req.user.role !== role) return res.status(403).json({message:"Forbidden"});
+=======
+exports.requireRoles = (...roles) => (req, res, next) => {
+  if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+  if (!roles.includes(req.user.role)) return res.status(403).json({ message: "Forbidden" });
+>>>>>>> origin/backend
   next();
 };

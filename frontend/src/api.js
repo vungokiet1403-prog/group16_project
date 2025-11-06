@@ -23,8 +23,34 @@ api.interceptors.response.use(
 console.log("API base:", api.defaults.baseURL);
 
 export const Auth = {
+<<<<<<< HEAD
+=======
+  forgot: (email) => api.post("/auth/forgot-password", { email }),
+  reset:  (token, newPassword) => api.post("/auth/reset-password", { token, newPassword }),
+>>>>>>> origin/backend
   signup: (payload) => api.post("/auth/signup", payload),
   login:  (payload) => api.post("/auth/login", payload),
   me:     () => api.get("/auth/me"),
   logout: () => localStorage.removeItem("token"),
+<<<<<<< HEAD
+=======
+
+  updateMe: (payload) => api.put("/auth/me", payload),
+  uploadAvatar: (file) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    return api.post("/auth/upload-avatar", fd, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+  },
+};
+
+export const Profile = {
+  get:    () => api.get("/profile"),
+  update: (payload) => api.put("/profile", payload),
+};
+export const Users = {
+  list: () => api.get("/users"),
+  remove: (id) => api.delete(`/users/${id}`),
+>>>>>>> origin/backend
 };

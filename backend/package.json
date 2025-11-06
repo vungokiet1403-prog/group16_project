@@ -16,6 +16,10 @@
     "call-bind-apply-helpers": "^1.0.2",
     "call-bound": "^1.0.4",
     "chokidar": "^3.6.0",
+<<<<<<< HEAD
+=======
+    "cloudinary": "^2.8.0",
+>>>>>>> origin/backend
     "concat-map": "^0.0.1",
     "content-disposition": "^1.0.0",
     "content-type": "^1.0.5",
@@ -64,6 +68,10 @@
     "minimatch": "^3.1.2",
     "mongoose": "^8.19.2",
     "ms": "^2.1.3",
+<<<<<<< HEAD
+=======
+    "multer": "^2.0.2",
+>>>>>>> origin/backend
     "negotiator": "^1.0.0",
     "nodemon": "^3.1.10",
     "normalize-path": "^3.0.0",

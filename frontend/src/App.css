@@ -87,3 +87,43 @@ body{
   border-radius:12px; border:1px dashed #ffffff2a; background:#0f172a; color:#e2e8f0;
   padding:10px 12px;
 }
+<<<<<<< HEAD
+=======
+/* =========== Admin =========== */
+.admin-wrap { display:flex; justify-content:center; padding:28px 16px; }
+.admin-card {
+  width:min(980px, 94vw);
+  background:linear-gradient(180deg, #0b1220cc, #0b1220e0);
+  border:1px solid #ffffff18; border-radius:18px; padding:18px;
+  box-shadow:0 10px 35px #00000066, inset 0 1px 0 #ffffff1a;
+}
+.admin-head{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
+.toolbar{ display:flex; gap:10px; }
+.input.sm{ height:38px; }
+
+.btn.sm{ padding:8px 12px; width:auto; }
+.btn.ghost{ background:#ffffff12; box-shadow:none; }
+.btn.danger{ background:linear-gradient(90deg,#ef4444,#f43f5e); }
+
+/* Bảng */
+.table-wrap{ overflow:auto; border:1px solid #ffffff14; border-radius:14px; }
+.table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+.table th, .table td{ padding:12px 14px; border-bottom:1px solid #ffffff14; text-align:left; }
+.table th{ color:#cbd5e1; font-weight:600; }
+.table .name, .table .email{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.muted{ color:#9ca3af; text-align:center; padding:18px; }
+
+/* Avatar trong bảng */
+.avatar{
+  width:44px; height:44px; border-radius:9999px; overflow:hidden;
+  background:#0f172a; display:flex; align-items:center; justify-content:center;
+  font-weight:700; color:#cbd5e1; border:1px solid #ffffff22;
+}
+.avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* Tag role */
+.tag{ padding:4px 10px; border-radius:999px; font-weight:600; font-size:12px; text-transform:uppercase; }
+.tag.user{ background:#22c55e22; color:#86efac; border:1px solid #22c55e55; }
+.tag.admin{ background:#f59e0b22; color:#fde68a; border:1px solid #f59e0b55; }
+
+>>>>>>> origin/backend
