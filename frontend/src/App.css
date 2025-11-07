@@ -87,8 +87,6 @@ body{
   border-radius:12px; border:1px dashed #ffffff2a; background:#0f172a; color:#e2e8f0;
   padding:10px 12px;
 }
-<<<<<<< HEAD
-=======
 /* =========== Admin =========== */
 .admin-wrap { display:flex; justify-content:center; padding:28px 16px; }
 .admin-card {
@@ -126,4 +124,3 @@ body{
 .tag.user{ background:#22c55e22; color:#86efac; border:1px solid #22c55e55; }
 .tag.admin{ background:#f59e0b22; color:#fde68a; border:1px solid #f59e0b55; }
 
->>>>>>> origin/backend
