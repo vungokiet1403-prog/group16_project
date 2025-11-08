@@ -1,52 +1,49 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "../api";
-import getError from "../utils/getError";
+
+
+const getErr = e => e?.response?.data?.message || e.message || "Lỗi";
 
 export default function Login(){
   const nav = useNavigate();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [err,setErr] = useState("");
-  const [token,setToken] = useState("");
 
-  const submit = async (e)=>{
-    e.preventDefault(); setErr(""); setToken("");
+  const submit = async e=>{
+    e.preventDefault(); setErr("");
     try{
       const { data } = await Auth.login({ email, password });
-      // lưu token + role
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role",  data?.user?.role || "user");
+      // chấp nhận {access,refresh,user} hoặc {token,user}
+      const access  = data.access || data.token;
+      const refresh = data.refresh || data.rt || "";
+      if(!access) throw new Error("Thiếu access token từ server");
 
-      setToken(data.token); // vẫn hiện JWT để chụp ảnh nếu cần
-
-      // ➜ điều hướng theo role
+      localStorage.setItem("access", access);
+      if (refresh) localStorage.setItem("refresh", refresh);
       const role = data?.user?.role || "user";
-      if (role === "admin") nav("/admin", { replace:true });
-      else nav("/profile", { replace:true });
-    }catch(e){ setErr(getError(e)); }
-  };
+      localStorage.setItem("role", role);
+      localStorage.setItem("user", JSON.stringify(data.user || {}));
 
+      nav(role === "admin" ? "/admin" : "/profile", { replace:true });
+    }catch(e){ setErr(getErr(e)); }
+  };
 
   return (
     <div className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
         <h2 className="auth-title">Đăng nhập</h2>
         <div className="field">
-          <input className="input" placeholder="Email" type="email" required
-                 value={email} onChange={e=>setEmail(e.target.value)} />
+          <input className="input" type="email" required placeholder="Email"
+            value={email} onChange={e=>setEmail(e.target.value)} />
         </div>
         <div className="field">
-          <input className="input" type="password" placeholder="Mật khẩu" required minLength={4}
-                 value={password} onChange={e=>setPassword(e.target.value)} />
+          <input className="input" type="password" required placeholder="Mật khẩu"
+            value={password} onChange={e=>setPassword(e.target.value)} />
         </div>
         <button className="btn">Login</button>
-
         {err && <div className="note err">Lỗi: {err}</div>}
-        {token && (<>
-          <div className="note ok">JWT token:</div>
-          <textarea className="token" readOnly value={token} />
-        </>)}
       </form>
     </div>
   );
