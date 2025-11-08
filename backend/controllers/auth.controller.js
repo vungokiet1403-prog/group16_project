@@ -12,7 +12,6 @@ exports.signup = async (req,res)=>{
   if(exists) return res.status(400).json({message:"Email already used"});
 
   const u = new User({name, email});
-  // nếu chưa có admin nào -> user này là admin
   const hasAdmin = await User.exists({ role: "admin" });
   if (!hasAdmin) u.role = "admin";
 
@@ -50,18 +49,24 @@ exports.forgotPassword = async (req, res) => {
   if (!u) return res.json({ message: "If email exists, token sent" });
   const token = crypto.randomBytes(20).toString("hex");
   u.resetPasswordToken = token;
-  u.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 30);
+  u.resetPasswordExpires = new Date(Date.now() + 1000 * 60 * 30); // 30 phút
   await u.save();
-  res.json({ message: "Reset token generated", token }); // demo
+  res.json({ message: "Reset token generated", token }); // dev: trả token để test
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  // ✅ đọc từ param trước, nếu không có thì đọc từ body
+  const token = req.params.token || req.body?.token;
+  const newPassword = (req.body?.newPassword || "").trim();
+
+  if (!token || !newPassword) return res.status(400).json({ message: "Missing token or password" });
+
   const u = await User.findOne({
     resetPasswordToken: token,
     resetPasswordExpires: { $gt: new Date() },
   });
   if (!u) return res.status(400).json({ message: "Invalid or expired token" });
+
   await u.setPassword(newPassword);
   u.resetPasswordToken = undefined;
   u.resetPasswordExpires = undefined;

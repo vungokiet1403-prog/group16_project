@@ -1,9 +1,6 @@
 const router = require("express").Router();
 const multer = require("multer");
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB
-});
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
 const { auth } = require("../middleware/auth");
 const ctl = require("../controllers/auth.controller");
@@ -13,10 +10,17 @@ router.post("/signup", ctl.signup);
 router.post("/login",  ctl.login);
 router.get ("/me",    auth, ctl.me);
 router.put ("/me",    auth, ctl.updateMe);
+
+// Forgot / Reset
 router.post("/forgot-password", ctl.forgotPassword);
+
+// ✅ THÊM DÒNG NÀY để khớp FE đang gọi /reset-password/:token
+router.post("/reset-password/:token", ctl.resetPassword);
+
+// (Giữ route body nếu bạn muốn support kiểu cũ)
 router.post("/reset-password",  ctl.resetPassword);
 
-// ⬇ Upload avatar
+// Upload avatar
 router.post("/upload-avatar", auth, upload.single("file"), async (req,res)=>{
   try{
     if(!req.file) return res.status(400).json({message:"No file"});
